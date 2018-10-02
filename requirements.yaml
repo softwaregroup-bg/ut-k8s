@@ -1,0 +1,13 @@
+dependencies:
+  - name: sentry
+    version: 0.4.1
+    condition: global.sentry.enabled
+    repository: https://kubernetes-charts.storage.googleapis.com
+  - name: elasticsearch
+    version: 4.0.1
+    condition: global.elasticsearch.enabled
+    repository: https://charts.bitnami.com/bitnami
+  - name: kibana
+    version: 0.14.6
+    condition: global.kibana.enabled
+    repository: https://kubernetes-charts.storage.googleapis.com

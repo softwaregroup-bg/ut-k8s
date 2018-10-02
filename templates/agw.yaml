@@ -1,0 +1,76 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "ut.fullname" . }}-agw-admin
+  labels:
+    app: {{ template "ut.name" . }}-agw-admin
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "ut.name" . }}-agw-admin
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "ut.name" . }}-agw-admin
+        version: {{ .Chart.Version }}
+        release: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Release.Name }}-rc
+      containers:
+        - name: {{ .Chart.Name }}-agw-admin
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['./impl-standard', 'server/ms/agwAdmin']
+          volumeMounts:
+          - name: config-volume
+            mountPath: /etc/ut_standard_dev
+          ports:
+            - containerPort: 8004
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8004
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8004
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agw
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 8004
+      name: http
+  selector:
+    app: {{ template "ut.name" . }}-agw-admin
+    release: {{ .Release.Name }}

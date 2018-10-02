@@ -1,0 +1,12 @@
+dependencies:
+- name: sentry
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 0.4.1
+- name: elasticsearch
+  repository: https://charts.bitnami.com/bitnami
+  version: 4.0.1
+- name: kibana
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 0.14.6
+digest: sha256:92b2596e06ce73fcf406d72345f807b0b89d5dd18f963372ccb4139cd19c51e8
+generated: 2018-10-02T11:02:15.0700722+03:00

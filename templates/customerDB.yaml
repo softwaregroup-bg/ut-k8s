@@ -1,0 +1,102 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "ut.fullname" . }}-customer-db
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "ut.name" . }}-customer-db
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "ut.name" . }}-customer-db
+        version: {{ .Chart.Version }}
+        release: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Release.Name }}-rc
+      containers:
+        - name: {{ .Chart.Name }}-esa-customer
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['./impl-standard', 'server/ms/esaCustomer']
+          volumeMounts:
+          - name: config-volume
+            mountPath: /etc/ut_standard_dev
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-user
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: {{ template "ut.name" . }}-customer-db
+    release: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-customer
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: {{ template "ut.name" . }}-customer-db
+    release: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-policy
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: {{ template "ut.name" . }}-customer-db
+    release: {{ .Release.Name }}

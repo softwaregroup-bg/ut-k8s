@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-rc
+data:
+  config: |
+    firebase=false
+    email=false
+    repl=false
+
+    [workerBus._moleculer]
+    heartbeatInterval=250
+    heartbeatTimeout=600
+    transporter=nats://{{ .Release.Name }}-nats-client:4222
+
+    [workerBus.jsonrpc]
+    port=8080
+
+    [httpserverAdministration]
+    packer=false
+
+    [httpserverSolution]
+    packer=false
+
+    [httpserverService]
+    packer=false
+
+    [db]
+    doc=false
+    logLevel=trace
+    updates=false
+    create=false
+    linkSP=true
+    cache=true
+
+    [db.db]
+    database=impl-standard-kalin-krustev
+    user=kalin.krustev
+    password=kalin@devdb08
+    connectionTimeout=60000
+    requestTimeout=60000
+
+    [_db.create]
+    user=ut5
+    password=ut5
+
+    [auditdb]
+    updates=false
+    create=false
+    cache=true
+
+    [auditdb.db]
+    server=devdb08
+    database=impl-standard-kalin-krustev-audit
+    user=kalin.krustev
+    password=kalin@devdb08
+    connectionTimeout=60000
+    requestTimeout=60000
+
+    [_auditdb.create]
+    user=ut5
+    password=ut5
+
+    [historydb]
+    updates=false
+    create=false
+    cache=true
+
+    [historydb.db]
+    server=devdb08
+    database=impl-standard-kalin-krustev-history
+    user=kalin.krustev
+    password=kalin@devdb08
+    connectionTimeout=60000
+    requestTimeout=60000
+
+    [_historydb.create]
+    user=ut5
+    password=ut5

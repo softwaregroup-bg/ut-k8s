@@ -1,0 +1,12 @@
+https://github.com/Razikus/charts/tree/patch-1
+
+elasticsearch.master.minimum_master_nodes:
+elasticsearch.master.replicas: 1
+elasticsearch.master.env.discovery\.type: single-node
+'fluent-bit.parsers.json[0].name': docker
+'fluent-bit.parsers.json[0].timeKeep': On
+'fluent-bit.parsers.json[0].timeKey': time
+'fluent-bit.parsers.json[0].timeFormat': '%Y-%m-%dT%H:%M:%S.%L'
+'fluent-bit.parsers.json[0].decodeFieldAs[0].decoder': json
+'fluent-bit.parsers.json[0].decodeFieldAs[0].action': try_next
+'fluent-bit.parsers.json[0].decodeFieldAs[1].decoder': escaped

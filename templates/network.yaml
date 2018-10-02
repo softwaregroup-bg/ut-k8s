@@ -1,0 +1,59 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ut
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: agw
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ut
+  http:
+  - route:
+    - destination:
+        host: agw
+        port:
+          number: 8004
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: devdb08
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  hosts:
+  - devdb08
+  ports:
+  - number: 1433
+    name: mssql
+    protocol: TCP
+  resolution: DNS
+  location: MESH_EXTERNAL
