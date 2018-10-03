@@ -1,0 +1,20 @@
+elasticsearch:
+  _config:
+    discovery.type: single-node
+  master:
+    _replicas: 1
+  coordinating:
+    _replicas: 1
+  ingest:
+    replicas: 1
+  data:
+    _replicas: 1
+    persistence:
+      enabled: false
+
+kibana:
+  service:
+    type: NodePort
+  files:
+    kibana.yml:
+      elasticsearch.url: http://elasticsearch:9200

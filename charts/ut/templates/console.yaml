@@ -1,0 +1,81 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "ut.fullname" . }}-console
+  labels:
+    app: {{ template "ut.name" . }}-console
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "ut.name" . }}-console
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "ut.name" . }}-console
+        version: {{ .Chart.Version }}
+        release: {{ .Release.Name }}
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Release.Name }}-rc
+      containers:
+        - name: {{ .Chart.Name }}-console
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['./impl-standard', 'server/ms/console']
+          volumeMounts:
+          - name: config-volume
+            mountPath: /etc/ut_standard_dev
+          ports:
+            - containerPort: 30011
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 30011
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 30011
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 30011
+      name: http
+    - port: 30001
+      name: log
+      protocol: UDP
+  selector:
+    app: {{ template "ut.name" . }}-console
+    release: {{ .Release.Name }}

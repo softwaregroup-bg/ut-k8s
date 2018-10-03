@@ -1,0 +1,85 @@
+# Default values for ut.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ut
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8004
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - chart-example.local
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+nats:
+  auth:
+    enabled: false
+
+global:
+  efk:
+    enabled: false
+  elasticsearch:
+    enabled: false
+  kibana:
+    enabled: false
+  sentry:
+    enabled: false
+
+sentry:
+  service:
+    type: NodePort
+  persistence:
+    enabled: false
+  postgresql:
+    persistence:
+      enabled: false
+  redis:
+    cluster:
+      enabled: false
+    master:
+      persistence:
+        enabled: false
+
+efk:
+  elasticsearch:
+    enabled: true
+    master:
+      minimum_master_nodes:
+      replicas: 1
+      env:
+        discovery.type: single-node
+  kibana:
+    enabled: true
+  fluent-bit:
+    enabled: false

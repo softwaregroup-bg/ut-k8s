@@ -1,0 +1,14 @@
+- variable: sentry.url
+  default:
+  group: Sentry
+  description: Sentry DSN
+  type: String
+  label: Sentry DSN
+  required: true
+- variable: elasticsearch.url
+  default:
+  group: Elasticsearch
+  description: Elasticsearch URL
+  type: String
+  label: Elasticsearch URL
+  required: true
