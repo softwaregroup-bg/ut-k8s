@@ -30,7 +30,11 @@ spec:
         - name: {{ .Chart.Name }}-esa-core
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['./impl-standard', 'server/ms/esaCore']
+          env:
+          - name: UT_ENV
+            value: {{ .Values.microservice.env }}
+          - name: UT_APP
+            value: server/ms/esaCore
           volumeMounts:
           - name: config-volume
             mountPath: /etc/ut_standard_dev

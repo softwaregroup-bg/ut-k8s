@@ -1,3 +1,4 @@
+{{- if .Values.microservice.console.enabled -}}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -8,7 +9,11 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+{{- if .Values.microservice.console.autostart -}}
+  replicas: 1
+{{- else -}}
+  replicas: 0
+{{- end -}}
   selector:
     matchLabels:
       app: {{ template "ut.name" . }}-console
@@ -30,7 +35,11 @@ spec:
         - name: {{ .Chart.Name }}-console
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['./impl-standard', 'server/ms/console']
+          env:
+          - name: UT_ENV
+            value: {{ .Values.env }}
+          - name: UT_APP
+            value: server/ms/console
           volumeMounts:
           - name: config-volume
             mountPath: /etc/ut_standard_dev
@@ -79,3 +88,4 @@ spec:
   selector:
     app: {{ template "ut.name" . }}-console
     release: {{ .Release.Name }}
+{{- end -}}

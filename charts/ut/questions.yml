@@ -2,6 +2,17 @@ categories:
 - microservice
 namespace: default
 questions:
+- variable: microservice.env
+  default: uat
+  type: string
+  label: Environment
+  description: Environment for running (dev/uat/test/prod)
+  required: true
+- variable: microservice.console.autostart
+  default: false
+  description: Auto start log console
+  label: Auto start log console
+  required: true
 - variable: sentry.url
   default:
   group: Sentry

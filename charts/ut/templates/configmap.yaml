@@ -7,6 +7,16 @@ data:
     firebase=false
     email=false
     repl=false
+    #stdOut=false
+
+{{- if not .Values.microservice.console.enabled -}}
+    console=false
+{{- end -}}
+
+{{- if not .Values.sentry.url -}}
+    [log.streams.sentry.streamConfig]
+    dsn={{ .Values.sentry.url }}
+{{- end -}}
 
     [workerBus._moleculer]
     heartbeatInterval=250

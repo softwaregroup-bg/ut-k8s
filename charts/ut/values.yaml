@@ -42,9 +42,11 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
-nats:
-  auth:
-    enabled: false
+microservice:
+  env: uat
+  console:
+    enabled: true
+    autostart: false
 
 elasticsearch:
   enabled: false
