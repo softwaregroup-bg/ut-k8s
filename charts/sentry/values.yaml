@@ -86,7 +86,7 @@ email:
 # Don't change these unless you know what you're doing
 service:
   name: sentry
-  type: LoadBalancer
+  type: NodePort
   externalPort: 9000
   internalPort: 9000
   ## External IP addresses of service
@@ -99,7 +99,7 @@ service:
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistence:
-  enabled: true
+  enabled: false
   ## database data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -144,11 +144,14 @@ postgresql:
   postgresUser: sentry
   imageTag: "9.5"
   persistence:
-    enabled: true
+    enabled: false
 
 redis:
-  persistence:
-    enabled: true
+  cluster:
+    enabled: false
+  master:
+    persistence:
+      enabled: false
 
 config:
   configYml: ""

@@ -17,10 +17,15 @@ elasticsearch:
   master:
     name: master
     exposeHttp: true
-    replicas: 3
-    minimum_master_nodes: "2"
+    #replicas: 3
+    replicas: 1
+    #minimum_master_nodes: "2"
+    minimum_master_nodes:
     heapSize: "512m"
     antiAffinity: "soft"
+    env:
+      discovery.type: single-node
+
     resources:
       limits:
         cpu: "1"
@@ -79,7 +84,7 @@ kibana:
     # SERVER_DEFAULTROUTE: "/app/kibana"
 
   # use configmap for its env configmap
-  envConfigMap: 
+  envConfigMap:
     enabled: true
     # name:  kibana
 
@@ -113,7 +118,7 @@ kibana:
       #   hosts:
       #     - chart-example.local
 
-  resources: {}  
+  resources: {}
     # limits:
     #   cpu: 100m
     #   memory: 300Mi

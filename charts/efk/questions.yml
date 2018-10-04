@@ -49,8 +49,8 @@ questions:
   required: true
   group: "elasticsearch"
   options:
-  - "512m" 
-  - "1g" 
+  - "512m"
+  - "1g"
   - "2g"
 - variable: elasticsearch.master.service.type
   default: "NodePort"
@@ -100,7 +100,7 @@ questions:
     label: Hostname
 # fluent-bit settings:
 - variable: fluent-bit.enabled
-  default: true
+  default: false
   group: "Fluent-Bit"
   description: "Enable fluent-bit, the Kubernetes log forwarder"
   type: boolean
