@@ -1,3 +1,6 @@
+categories:
+- microservice
+questions:
 - variable: sentry.url
   default:
   group: Sentry
