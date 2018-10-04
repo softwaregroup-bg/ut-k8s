@@ -18,7 +18,7 @@ data:
     console=false
     {{- end}}
 
-    {{- if not .Values.sentry.url }}
+    {{- if .Values.sentry.url }}
     [log.streams.sentry.streamConfig]
     dsn={{ .Values.sentry.url }}
     {{- end }}
