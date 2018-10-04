@@ -3,21 +3,22 @@ categories:
 namespace: default
 questions:
 - variable: microservice.env
-  default: uat
+  group: Microservices
   type: string
+  default: uat
   label: Environment
   description: Environment for running (dev/uat/test/prod)
   required: true
 - variable: microservice.console.autostart
+  group: Microservices
+  type: string
   default: false
-  description: Auto start log console
   label: Auto start log console
   required: true
 - variable: sentry.url
-  default:
   group: Sentry
-  description: Sentry DSN
   type: string
+  default:
   label: Sentry DSN
   required: false
 - variable: elasticsearch.enabled
@@ -31,13 +32,11 @@ questions:
   subquestions:
   - variable: elasticsearch.host
     default: efk-elasticsearch.efk
-    description: Elasticsearch host
     type: string
     label: Elasticsearch host
     required: true
   - variable: elasticsearch.port
     default: 9200
-    description: Elasticsearch port
     type: string
     label: Elasticsearch port
     required: true

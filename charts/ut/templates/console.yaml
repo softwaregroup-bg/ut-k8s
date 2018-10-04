@@ -9,11 +9,11 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-{{- if .Values.microservice.console.autostart -}}
+  {{- if .Values.microservice.console.autostart}}
   replicas: 1
-{{- else -}}
+  {{- else}}
   replicas: 0
-{{- end -}}
+  {{- end}}
   selector:
     matchLabels:
       app: {{ template "ut.name" . }}-console
