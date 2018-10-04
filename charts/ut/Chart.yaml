@@ -1,15 +1,8 @@
 apiVersion: v1
 appVersion: "7.2"
-description: impl-standard microservices
+description: "impl-standard microservices"
 name: ut
 version: 1.0.0
-home: https://sentry.io/
-icon: https://sentry.io/_static/getsentry/images/branding/png/sentry-glyph-black.png
-keywords:
-- debugging
-- logging
-maintainers:
-- email: justin@linux.com
-  name: rothgar
+icon: https://www.softwaregroup.com/ResourcePackages/Talon/assets/dist/images/logo-white.png
 sources:
-- https://github.com/getsentry/sentry
+- https://softwaregroup.com
