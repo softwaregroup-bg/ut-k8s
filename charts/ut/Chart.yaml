@@ -3,7 +3,6 @@ appVersion: "7.2"
 description: impl-standard microservices
 name: ut
 version: 1.0.0
-
 home: https://sentry.io/
 icon: https://sentry.io/_static/getsentry/images/branding/png/sentry-glyph-black.png
 keywords:
@@ -14,4 +13,3 @@ maintainers:
   name: rothgar
 sources:
 - https://github.com/getsentry/sentry
-version: 0.4.1
