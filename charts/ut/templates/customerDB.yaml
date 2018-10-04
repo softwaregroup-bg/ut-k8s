@@ -37,7 +37,7 @@ spec:
             value: server/ms/esaCustomer
           volumeMounts:
           - name: config-volume
-            mountPath: /etc/ut_standard_dev
+            mountPath: /etc/ut_standard_{{ .Values.microservice.env }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

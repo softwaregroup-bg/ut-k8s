@@ -37,7 +37,7 @@ spec:
             value: server/ms/agwAdmin
           volumeMounts:
           - name: config-volume
-            mountPath: /etc/ut_standard_dev
+            mountPath: /etc/ut_standard_{{ .Values.microservice.env }}
           ports:
             - containerPort: 8004
           livenessProbe:
