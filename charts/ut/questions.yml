@@ -15,6 +15,7 @@ questions:
   type: boolean
   label: Enable Elasticsearch
   required: false
+  show_subquestion_if: true
   subquestions:
   - variable: elasticsearch.host
     default: efk-elasticsearch.efk
