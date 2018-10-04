@@ -5,13 +5,13 @@ questions:
   default:
   group: Sentry
   description: Sentry DSN
-  type: String
+  type: string
   label: Sentry DSN
-  required: true
+  required: false
 - variable: elasticsearch.url
   default:
   group: Elasticsearch
   description: Elasticsearch URL
-  type: String
+  type: string
   label: Elasticsearch URL
-  required: true
+  required: false
