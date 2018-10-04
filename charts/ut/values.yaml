@@ -46,6 +46,11 @@ nats:
   auth:
     enabled: false
 
+elasticsearch:
+  enabled: false
+  host: efk-elasticsearch.efk
+  port: 9200
+
 global:
   efk:
     enabled: false

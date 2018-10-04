@@ -1,5 +1,6 @@
 categories:
 - microservice
+namespace: default
 questions:
 - variable: sentry.url
   default:
@@ -20,7 +21,7 @@ questions:
   - variable: elasticsearch.host
     default: efk-elasticsearch.efk
     description: Elasticsearch host
-    type: hostname
+    type: string
     label: Elasticsearch host
     required: true
   - variable: elasticsearch.port
