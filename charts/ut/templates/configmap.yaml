@@ -9,14 +9,19 @@ data:
     repl=false
     #stdOut=false
 
-{{- if not .Values.microservice.console.enabled -}}
-    console=false
-{{- end -}}
+    {{- if not .Values.elasticsearch.enabled }}
+    [log.streams]
+    fluentd=false
+    {{- end }}
 
-{{- if not .Values.sentry.url -}}
+    {{- if not .Values.microservice.console.enabled }}
+    console=false
+    {{- end}}
+
+    {{- if not .Values.sentry.url }}
     [log.streams.sentry.streamConfig]
     dsn={{ .Values.sentry.url }}
-{{- end -}}
+    {{- end }}
 
     [workerBus._moleculer]
     heartbeatInterval=250
