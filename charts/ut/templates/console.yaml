@@ -71,7 +71,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: console
+  name: console-ui
   labels:
     app: {{ template "ut.name" . }}
     chart: {{ template "ut.chart" . }}
@@ -82,6 +82,22 @@ spec:
   ports:
     - port: 30011
       name: http
+  selector:
+    app: {{ template "ut.name" . }}-console
+    release: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
     - port: 30001
       name: log
       protocol: UDP
