@@ -1,3 +1,4 @@
+{{- if .Values.elasticsearch.enabled -}}
 apiVersion: apps/v1beta2
 kind: DaemonSet
 metadata:
@@ -32,9 +33,9 @@ spec:
           - "-o"
           - "es"
           - "-p"
-          - "Host={{ template "elasticsearch.fullname" . }}"
+          - "Host={{ .Values.elasticsearch.host }}"
           - "-p"
-          - "Port=9200"
+          - "Port={{ .Values.elasticsearch.port }}"
           - "-p"
           - "Index=ut"
           - "-p"
@@ -79,3 +80,4 @@ spec:
   selector:
     app: {{ template "ut.name" . }}-fluentd
     release: {{ .Release.Name }}
+{{- end -}}

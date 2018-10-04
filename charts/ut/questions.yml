@@ -8,10 +8,23 @@ questions:
   type: string
   label: Sentry DSN
   required: false
-- variable: elasticsearch.url
-  default:
+- variable: elasticsearch.enabled
+  default: false
   group: Elasticsearch
-  description: Elasticsearch URL
-  type: string
-  label: Elasticsearch URL
+  description: Enable sending of logs to Elasticsearch
+  type: boolean
+  label: Enable Elasticsearch
   required: false
+  subquestions:
+  - variable: elasticsearch.host
+    default: efk-elasticsearch.efk
+    description: Elasticsearch host
+    type: hostname
+    label: Elasticsearch host
+    required: true
+  - variable: elasticsearch.port
+    default: 9200
+    description: Elasticsearch port
+    type: string
+    label: Elasticsearch port
+    required: true
