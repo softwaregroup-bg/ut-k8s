@@ -1,0 +1,7 @@
+{{ $params := dict "params" (dict "name" "rule" "app" "esoRule") -}}
+{{ $params := merge $params . -}}
+{{ include "ut.microservice" $params -}}
+---
+{{ $params := dict "params" (dict "name" "db-rule" "app" "esaRule") -}}
+{{ $params := merge $params . -}}
+{{ include "ut.microservice" $params -}}

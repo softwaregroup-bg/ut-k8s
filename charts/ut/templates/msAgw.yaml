@@ -1,0 +1,3 @@
+{{ $params := dict "params" (dict "name" "agw-admin" "app" "agwAdmin" "http" 8004 "type" "NodePort") -}}
+{{ $params := merge $params . -}}
+{{ include "ut.microservice" $params -}}

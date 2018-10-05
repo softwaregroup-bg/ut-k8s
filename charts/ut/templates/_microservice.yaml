@@ -1,22 +1,27 @@
+{{- define "ut.microservice" -}}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "ut.fullname" . }}-customer-db
+  name: {{ template "ut.fullname" . }}-{{ .params.name }}
   labels:
     app: {{ template "ut.name" . }}
     chart: {{ template "ut.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
+  {{ if hasKey .params "replicaCount" -}}
+  replicas: {{ .params.replicaCount }}
+  {{ else -}}
   replicas: {{ .Values.replicaCount }}
+  {{ end -}}
   selector:
     matchLabels:
-      app: {{ template "ut.name" . }}-customer-db
+      app: {{ template "ut.name" . }}-{{ .params.name }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "ut.name" . }}-customer-db
+        app: {{ template "ut.name" . }}-{{ .params.name }}
         version: {{ .Chart.Version }}
         release: {{ .Release.Name }}
       annotations:
@@ -27,14 +32,27 @@ spec:
           configMap:
             name: {{ .Release.Name }}-rc
       containers:
-        - name: {{ .Chart.Name }}-esa-customer
+        - name: {{ .Chart.Name }}-eso-{{ .params.name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           - name: UT_ENV
             value: {{ .Values.microservice.env }}
           - name: UT_APP
-            value: server/ms/esaCustomer
+            value: server/ms/{{ .params.app }}
+          {{ if .params.http -}}
+          ports:
+            - containerPort: {{ .params.http }}
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .params.http }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .params.http }}
+          {{ end -}}
           volumeMounts:
           - name: config-volume
             mountPath: /etc/ut_standard_{{ .Values.microservice.env }}
@@ -56,53 +74,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: db-user
+  name: {{ .params.name }}
   labels:
     app: {{ template "ut.name" . }}
     chart: {{ template "ut.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  type: ClusterIP
+  type: {{ default "ClusterIP" .params.type}}
   ports:
-    - port: 8080
+    - port: {{ default 8080 .params.http }}
+      protocol: TCP
       name: http
   selector:
-    app: {{ template "ut.name" . }}-customer-db
+    app: {{ template "ut.name" . }}-{{ .params.name }}
     release: {{ .Release.Name }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: db-customer
-  labels:
-    app: {{ template "ut.name" . }}
-    chart: {{ template "ut.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-spec:
-  type: ClusterIP
-  ports:
-    - port: 8080
-      name: http
-  selector:
-    app: {{ template "ut.name" . }}-customer-db
-    release: {{ .Release.Name }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: db-policy
-  labels:
-    app: {{ template "ut.name" . }}
-    chart: {{ template "ut.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-spec:
-  type: ClusterIP
-  ports:
-    - port: 8080
-      name: http
-  selector:
-    app: {{ template "ut.name" . }}-customer-db
-    release: {{ .Release.Name }}
+{{- end -}}

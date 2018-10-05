@@ -1,0 +1,28 @@
+{{ if .Values.microservice.console.enabled -}}
+{{ $replicaCount := 0 -}}
+{{ if .Values.microservice.console.autostart -}}
+{{ $replicaCount := 1 -}}
+{{ end -}}
+{{ $params := dict "params" (dict "name" "console" "app" "console" "http" 30001 "type" "NodePort" "replicaCount" $replicaCount) -}}
+{{ $params := merge $params . -}}
+{{ include "ut.microservice" $params -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-udp
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 30001
+      name: log
+      protocol: UDP
+  selector:
+    app: {{ template "ut.name" . }}-console
+    release: {{ .Release.Name }}
+{{end -}}
