@@ -11,7 +11,7 @@ questions:
   required: true
 - variable: microservice.console.autostart
   group: Microservices
-  type: string
+  type: boolean
   default: false
   label: Auto start log console
   required: true

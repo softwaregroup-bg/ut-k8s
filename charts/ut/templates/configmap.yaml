@@ -9,9 +9,12 @@ data:
     repl=false
     #stdOut=false
 
-    {{- if not .Values.elasticsearch.enabled }}
     [log.streams]
+    {{- if not .Values.elasticsearch.enabled }}
     fluentd=false
+    {{- end }}
+    {{- if not .Values.sentry.url }}
+    sentry=false
     {{- end }}
 
     {{- if not .Values.microservice.console.enabled }}

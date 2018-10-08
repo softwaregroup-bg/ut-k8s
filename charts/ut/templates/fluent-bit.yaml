@@ -1,6 +1,6 @@
 {{- if .Values.elasticsearch.enabled -}}
 apiVersion: apps/v1beta2
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: {{ template "ut.fullname" . }}-fluentd
   labels:

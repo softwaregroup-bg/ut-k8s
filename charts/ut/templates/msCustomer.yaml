@@ -1,7 +1,7 @@
-{{ $params := dict "params" (dict "name" "customer" "app" "esoCustomer") -}}
+{{ $params := dict "params" (dict "name" "customer" "app" "esoCustomer" "services" (list "policy" "identity" "permission" "customer" "user")) -}}
 {{ $params := merge $params . -}}
 {{ include "ut.microservice" $params -}}
 ---
-{{ $params := dict "params" (dict "name" "db-customer" "app" "esaCustomer") -}}
+{{ $params := dict "params" (dict "name" "db-customer" "app" "esaCustomer" "services" (list "db-policy" "db-customer" "db-user")) -}}
 {{ $params := merge $params . -}}
 {{ include "ut.microservice" $params -}}

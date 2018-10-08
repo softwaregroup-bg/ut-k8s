@@ -53,16 +53,6 @@ elasticsearch:
   host: efk-elasticsearch.efk
   port: 9200
 
-global:
-  efk:
-    enabled: false
-  elasticsearch:
-    enabled: false
-  kibana:
-    enabled: false
-  sentry:
-    enabled: false
-
 sentry:
   service:
     type: NodePort
