@@ -103,5 +103,5 @@ spec:
   - number: 1500
     name: payshield
     protocol: TCP
-  resolution: DNS
+  resolution: STATIC
   location: MESH_EXTERNAL
