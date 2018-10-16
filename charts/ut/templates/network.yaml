@@ -56,7 +56,7 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   hosts:
-  - ncr
+  - "*"
   gateways:
   - ut
   tcp:
