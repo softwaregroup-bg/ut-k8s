@@ -17,6 +17,12 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
+  - port:
+      number: 8555
+      name: atm
+      protocol: TCP
+    hosts:
+    - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -38,6 +44,30 @@ spec:
         host: agw-admin
         port:
           number: 8004
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: atm-host
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  hosts:
+  - ncr
+  gateways:
+  - ut
+  tcp:
+  - match:
+    - port: 8555
+    route:
+    - destination:
+        host: ncr
+        port:
+          number: 8555
+
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
