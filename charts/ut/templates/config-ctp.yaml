@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-ctp-rc
+data:
+  config: |
+    #stdOut=false
+
+    [log.streams]
+    {{- if not .Values.elasticsearch.enabled }}
+    fluentd=false
+    {{- end }}
+    {{- if not .Values.sentry.url }}
+    sentry=false
+    {{- end }}
+
+    {{- if .Values.sentry.url }}
+    [log.streams.sentry.streamConfig]
+    dsn={{ .Values.sentry.url }}
+    {{- end }}
+
+    [workerBus.jsonrpc]
+    port=8080

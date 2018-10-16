@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-rc
+  name: {{ .Release.Name }}-standard-rc
 data:
   config: |
     firebase=false

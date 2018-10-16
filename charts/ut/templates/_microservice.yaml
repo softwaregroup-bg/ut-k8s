@@ -28,9 +28,12 @@ spec:
         sidecar.istio.io/inject: "true"
     spec:
       volumes:
-        - name: config-volume
+        - name: config-volume-standard
           configMap:
-            name: {{ .Release.Name }}-rc
+            name: {{ .Release.Name }}-standard-rc
+        - name: config-volume-ctp
+          configMap:
+            name: {{ .Release.Name }}-ctp-rc
       containers:
         - name: {{ .Chart.Name }}-{{ .params.app | lower }}
           image: "{{ default .Values.image.repository .params.repo}}:{{ .Values.image.tag }}"
@@ -53,8 +56,10 @@ spec:
               path: /healthz
               port: {{ default 8080 .params.http }}
           volumeMounts:
-          - name: config-volume
+          - name: config-volume-standard
             mountPath: /etc/ut_standard_{{ .Values.microservice.env }}
+          - name: config-volume-ctp
+            mountPath: /etc/ut_ctp_{{ .Values.microservice.env }}
           resources:
             limits:
               memory: 250M
