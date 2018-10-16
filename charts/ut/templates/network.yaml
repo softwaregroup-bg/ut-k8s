@@ -98,6 +98,8 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   hosts:
+  - payshield
+  addresses:
   - 192.168.128.19
   ports:
   - number: 1500
