@@ -18,7 +18,7 @@ spec:
     hosts:
     - "*"
   - port:
-      number: 8555
+      number: 31400
       name: atm
       protocol: TCP
     hosts:
@@ -61,7 +61,7 @@ spec:
   - ut
   tcp:
   - match:
-    - port: 8555
+    - port: 31400
     route:
     - destination:
         host: ncr
