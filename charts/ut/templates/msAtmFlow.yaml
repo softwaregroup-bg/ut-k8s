@@ -1,3 +1,3 @@
-{{ $params := dict "params" (dict "name" "atmFlow" "app" "tpoAtm") -}}
+{{ $params := dict "params" (dict "name" "atmflow" "app" "tpoAtm") -}}
 {{ $params := merge $params . -}}
 {{ include "ut.microservice" $params -}}
