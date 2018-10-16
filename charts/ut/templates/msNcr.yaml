@@ -1,3 +1,22 @@
 {{ $params := dict "params" (dict "name" "ncr" "app" "ncr" "repo" "ctp") -}}
 {{ $params := merge $params . -}}
 {{ include "ut.microservice" $params -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ncr-aptra
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8555
+      name: aptra
+      protocol: TCP
+  selector:
+    app: {{ template "ut.name" . }}-ncr
+    release: {{ .Release.Name }}
