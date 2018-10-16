@@ -33,7 +33,7 @@ spec:
             name: {{ .Release.Name }}-rc
       containers:
         - name: {{ .Chart.Name }}-{{ .params.app | lower }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ default .Values.image.repository .params.repo}}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['./ut-microservice', 'server/ms/{{ .params.app }}']
           env:
@@ -46,11 +46,11 @@ spec:
               name: http
           livenessProbe:
             httpGet:
-              path: /health
+              path: /healthz
               port: {{ default 8080 .params.http }}
           readinessProbe:
             httpGet:
-              path: /health
+              path: /healthz
               port: {{ default 8080 .params.http }}
           volumeMounts:
           - name: config-volume
