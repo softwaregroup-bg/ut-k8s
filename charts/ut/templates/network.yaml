@@ -67,7 +67,6 @@ spec:
         host: ncr
         port:
           number: 8555
-
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
@@ -84,6 +83,25 @@ spec:
   ports:
   - number: 1433
     name: mssql
+    protocol: TCP
+  resolution: DNS
+  location: MESH_EXTERNAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: payshield
+  labels:
+    app: {{ template "ut.name" . }}
+    chart: {{ template "ut.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  hosts:
+  - 192.168.128.19
+  ports:
+  - number: 1500
+    name: payshield
     protocol: TCP
   resolution: DNS
   location: MESH_EXTERNAL
