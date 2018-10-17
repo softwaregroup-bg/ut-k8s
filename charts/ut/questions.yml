@@ -12,7 +12,7 @@ questions:
 - variable: microservice.console.autostart
   group: Microservices
   type: boolean
-  default: false
+  default: true
   label: Auto start log console
   required: true
 - variable: sentry.url

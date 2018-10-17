@@ -46,7 +46,7 @@ microservice:
   env: uat
   console:
     enabled: true
-    autostart: false
+    autostart: true
 
 elasticsearch:
   enabled: false
