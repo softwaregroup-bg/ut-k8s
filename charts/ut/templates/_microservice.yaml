@@ -8,6 +8,12 @@ metadata:
     chart: {{ template "ut.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ default .Values.image.repository .params.repo}}
+    app.kubernetes.io/instance: {{ template "ut.name" . }}-{{ .params.name }}-{{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.Version }}
+    app.kubernetes.io/component: {{ template "ut.name" . }}-{{ .params.name }}
+    app.kubernetes.io/part-of: ut
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   {{ if hasKey .params "replicaCount" -}}
   replicas: {{ .params.replicaCount }}
@@ -92,6 +98,12 @@ metadata:
     chart: {{ template "ut.chart" $dot }}
     release: {{ $dot.Release.Name }}
     heritage: {{ $dot.Release.Service }}
+    app.kubernetes.io/name: {{ default .Values.image.repository .params.repo}}
+    app.kubernetes.io/instance: {{ template "ut.name" . }}-{{ .params.name }}-{{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.Version }}
+    app.kubernetes.io/component: {{ template "ut.name" . }}-{{ .params.name }}
+    app.kubernetes.io/part-of: ut
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: {{ default "ClusterIP" $dot.params.type}}
   ports:
