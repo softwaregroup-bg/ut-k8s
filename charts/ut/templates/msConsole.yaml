@@ -1,7 +1,7 @@
 {{ if .Values.microservice.console.enabled -}}
 {{ $replicaCount := 0 -}}
 {{ if .Values.microservice.console.autostart -}}
-{{ $replicaCount := 1 -}}
+{{ $replicaCount = 1 -}}
 {{ end -}}
 {{ $params := dict "params" (dict "name" "console" "app" "console" "http" 30001 "type" "NodePort" "replicaCount" $replicaCount) -}}
 {{ $params := merge $params . -}}
