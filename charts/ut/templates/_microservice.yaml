@@ -8,7 +8,7 @@ metadata:
     chart: {{ template "ut.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    app.kubernetes.io/name: {{ default .Values.image.repository .params.repo}}
+    app.kubernetes.io/name: {{ default .Values.image.repository .params.repo }}
     app.kubernetes.io/instance: {{ template "ut.name" . }}-{{ .params.name }}-{{ .Release.Name }}
     app.kubernetes.io/version: {{ .Chart.Version }}
     app.kubernetes.io/component: {{ template "ut.name" . }}-{{ .params.name }}
@@ -98,12 +98,12 @@ metadata:
     chart: {{ template "ut.chart" $dot }}
     release: {{ $dot.Release.Name }}
     heritage: {{ $dot.Release.Service }}
-    app.kubernetes.io/name: {{ default .Values.image.repository .params.repo}}
-    app.kubernetes.io/instance: {{ template "ut.name" . }}-{{ .params.name }}-{{ .Release.Name }}
-    app.kubernetes.io/version: {{ .Chart.Version }}
-    app.kubernetes.io/component: {{ template "ut.name" . }}-{{ .params.name }}
+    app.kubernetes.io/name: {{ default $dot.Values.image.repository $dot.params.repo }}
+    app.kubernetes.io/instance: {{ template "ut.name" $dot }}-{{ $dot.params.name }}-{{ $dot.Release.Name }}
+    app.kubernetes.io/version: {{ $dot.Chart.Version }}
+    app.kubernetes.io/component: {{ template "ut.name" $dot }}-{{ $dot.params.name }}
     app.kubernetes.io/part-of: ut
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/managed-by: {{ $dot.Release.Service }}
 spec:
   type: {{ default "ClusterIP" $dot.params.type}}
   ports:
