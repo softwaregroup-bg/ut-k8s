@@ -4,10 +4,10 @@ kind: Deployment
 metadata:
   name: {{ template "ut.fullname" . }}-{{ .params.name }}
   labels:
-    app: {{ template "ut.name" . }}
-    chart: {{ template "ut.chart" . }}
+    app: {{ template "ut.name" . }}-{{ .params.name }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    helm.sh/chart: {{ template "ut.chart" . }}
     app.kubernetes.io/name: {{ default .Values.image.repository .params.repo }}
     app.kubernetes.io/instance: {{ template "ut.name" . }}-{{ .params.name }}-{{ .Release.Name }}
     app.kubernetes.io/version: {{ .Chart.Version }}
@@ -95,7 +95,7 @@ metadata:
   name: {{ $service }}
   labels:
     app: {{ template "ut.name" $dot }}
-    chart: {{ template "ut.chart" $dot }}
+    helm.sh/chart: {{ template "ut.chart" $dot }}
     release: {{ $dot.Release.Name }}
     heritage: {{ $dot.Release.Service }}
     app.kubernetes.io/name: {{ default $dot.Values.image.repository $dot.params.repo }}
