@@ -52,7 +52,7 @@ data:
     cache=true
 
     [db.db]
-    database=impl-standard-kalin-krustev
+    database=impl-standard-kalin-krustev-test
     user=kalin.krustev
     password=kalin@devdb08
     connectionTimeout=60000
@@ -69,7 +69,7 @@ data:
 
     [auditdb.db]
     server=devdb08
-    database=impl-standard-kalin-krustev-audit
+    database=impl-standard-kalin-krustev-test-audit
     user=kalin.krustev
     password=kalin@devdb08
     connectionTimeout=60000
@@ -86,7 +86,7 @@ data:
 
     [historydb.db]
     server=devdb08
-    database=impl-standard-kalin-krustev-history
+    database=impl-standard-kalin-krustev-test-history
     user=kalin.krustev
     password=kalin@devdb08
     connectionTimeout=60000
