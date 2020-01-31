@@ -31,8 +31,9 @@ data:
     heartbeatTimeout=600
     transporter=nats://{{ .Release.Name }}-nats-client:4222
 
-    [workerBus.jsonrpc]
+    [utBus.serviceBus]
     port=8080
+    domain=false
 
     [httpserverAdministration]
     packer=false
